@@ -1,2 +1,2 @@
-# javascript
- Curso de JavaScript do CursoemVídeo!
+# javascript / typecript
+Estudos sobre a linguagem
