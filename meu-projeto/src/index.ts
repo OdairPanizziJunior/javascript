@@ -1,9 +1,9 @@
 import express from 'express';
-import cors from 'cors'; // Importando o CORS
+import cors from 'cors'; 
 
 const app = express();
 
-app.use(cors()); // Permitir CORS para todas as origens
+app.use(cors()); // Isso permite o CORS para todas as origens
 
 app.get('/api/dados', async (req, res) => {
   const dados = {
