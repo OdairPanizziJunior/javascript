@@ -1,10 +1,12 @@
-document.getElementById('btn').addEventListener('click', () => {
-    axios.get('http://localhost:3000/api/dados') // Envia uma requisição GET para o servidor
-      .then(response => {
-        document.getElementById('response').textContent = JSON.stringify(response.data, null, 2);
-      })
-      .catch(error => {
-        console.error('Erro ao buscar os dados:', error);
-      });
-  });
-  
+const button = document.getElementById('btn');
+const responseContainer = document.getElementById('response');
+
+button.addEventListener('click', () => {
+  axios.get('http://localhost:3000/api/dados')
+    .then((response) => {
+      responseContainer.textContent = JSON.stringify(response.data, null, 2); // Exibir resposta
+    })
+    .catch((error) => {
+      console.error('Erro ao buscar dados', error);
+    });
+});
