@@ -5,6 +5,9 @@ const Pessoa = require('./models/model');
 const app = express();
 app.use(express.json()); // Permite que o Express entenda JSON no corpo da requisição
 
+const cors = require('cors');
+app.use(cors()); // Permite que qualquer origem acesse a API
+
 // Função assíncrona para iniciar o servidor após a conexão com o MongoDB
 const startServer = async () => {
     try {
@@ -44,6 +47,9 @@ const startServer = async () => {
         console.log('Erro ao conectar ao MongoDB:', error);
     }
 };
+
+
+
 
 // Iniciar o servidor
 startServer();

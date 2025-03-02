@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 //Schema para "minhaColecao"
 const pessoaSchema = new mongoose.Schema({
-    nome: {type: String, required: true},
-    idade: {type: Number, requird: true}
+    nome: { type: String, required: true }, 
+    idade: { type: Number, required: true } 
 });
 
 //modelo a partir do schema
