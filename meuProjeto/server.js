@@ -31,6 +31,18 @@ app.post('/adicionar', async (req, res) => {
     }
 });
 
+// Rota para buscar uma pessoa pelo nome
+app.get('/buscar', async (req, res) => {
+    try {
+        const nomeBusca = req.query.nome;
+        const pessoas = await Pessoa.find({ nome: new RegExp(nomeBusca, 'i') }); // 'i' faz a busca ser case-insensitive
+        res.json(pessoas);
+    } catch (error) {
+        res.status(500).json({ message: "Erro ao buscar pessoas", error });
+    }
+});
+
+
 // Iniciar o servidor
 app.listen(porta, () => {
     console.log(`Servidor rodando na porta ${porta}`);
