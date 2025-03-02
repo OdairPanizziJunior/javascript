@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path'); // Para ajudar a resolver caminhos de arquivos
-
 const app = express();
 const porta = 3000;
 

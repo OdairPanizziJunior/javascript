@@ -6,20 +6,38 @@
     <title>Cadastro de Pessoas</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .container { margin-bottom: 20px; }
-        input { margin: 5px; padding: 8px; }
-        button { padding: 8px 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: #45a049; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 8px 12px; border: 1px solid #ddd; text-align: left; }
+        body { 
+            font-family: Arial, sans-serif;
+            margin: 20px; 
+            }
+        .container { 
+            margin-bottom: 20px; 
+            }
+        input { 
+            margin: 5px; 
+            padding: 8px; }
+        button {
+            padding: 8px 16px; background-color: #4CAF50; 
+            color: white; border: none; 
+            cursor: pointer; 
+            }
+        button:hover { 
+            background-color: #45a049;
+            }
+        table {
+            width: 100%; border-collapse: 
+            collapse; margin-top: 20px; 
+            }
+        th, td { padding: 8px 12px; 
+            border: 1px solid #ddd; 
+            text-align: left; 
+            }
     </style>
 </head>
 <body>
 
     <h1>Cadastro de Pessoas</h1>
 
-    <!-- Formulário de cadastro -->
     <div class="container">
         <h2>Adicionar Pessoa</h2>
         <input type="text" id="nome" placeholder="Nome" required>
@@ -28,14 +46,12 @@
         <button onclick="adicionarPessoa()">Cadastrar</button>
     </div>
 
-    <!-- Campo de busca -->
     <div class="container">
         <h2>Buscar Pessoa</h2>
         <input type="text" id="nomeBusca" placeholder="Buscar por nome">
         <button onclick="buscarPessoa()">Buscar</button>
     </div>
 
-    <!-- Tabela para listar as pessoas -->
     <div class="container">
         <h2>Lista de Pessoas</h2>
         <table id="tabelaPessoas">
@@ -48,13 +64,13 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- As pessoas serão inseridas aqui -->
+                <!-- Lista das pessoas inseridas -->
             </tbody>
         </table>
     </div>
 
     <script>
-        // Função para adicionar uma pessoa
+
         const adicionarPessoa = async () => {
             const nome = document.getElementById("nome").value;
             const idade = document.getElementById("idade").value;
@@ -65,25 +81,23 @@
                     nome, idade, profissao
                 });
                 console.log('Pessoa adicionada:', resposta.data);
-                listarPessoas(); // Atualiza a lista de pessoas
+                listarPessoas(); // Atualiza a lista de pessoas toda vez que insere.
             } catch (error) {
                 console.error('Erro ao adicionar pessoa:', error);
             }
         };
 
-        // Função para buscar pessoas pelo nome
         const buscarPessoa = async () => {
             const nomeBusca = document.getElementById("nomeBusca").value;
             try {
                 const resposta = await axios.get(`http://localhost:3000/buscar?nome=${nomeBusca}`);
                 const pessoas = resposta.data;
-                exibirPessoas(pessoas); // Exibe a lista filtrada
+                exibirPessoas(pessoas); // exite tbody as pessoas listadas
             } catch (error) {
                 console.error('Erro ao buscar pessoa:', error);
             }
         };
 
-        // Função para listar todas as pessoas
         const listarPessoas = async () => {
             try {
                 const resposta = await axios.get('http://localhost:3000/listar');
@@ -94,7 +108,6 @@
             }
         };
 
-        // Função para excluir uma pessoa
         const excluirPessoa = async (id) => {
             try {
                 await axios.delete(`http://localhost:3000/deletar?id=${id}`);
