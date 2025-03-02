@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
-// Schema para "minhaColecao"
+// Schema para "pessoas"
 const pessoaSchema = new mongoose.Schema({
     nome: { type: String, required: true }, 
-    idade: { type: Number, required: true } 
+    idade: { type: Number, required: true },
+    profissao: { type: String, required: true}
 });
 
-// Modelo para a coleção "minhaColecao"
-const Pessoa = mongoose.model('Pessoa', pessoaSchema, 'minhaColecao');
+const Pessoa = mongoose.model('Pessoa', pessoaSchema, 'pessoas');
 
 module.exports = Pessoa;
 

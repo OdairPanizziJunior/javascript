@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de pessoa</title>
+</head>
+<body>
+    <h1>Cadastro de Pessoa</h1>
+    <form id="formPessoa">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required><br><br>
+
+        <label for="idade">Idade:</label>
+        <input type="number" id="idade" name="idade" required><br><br>
+
+        <label for="profissao">Profissão:</label>
+        <input type="text" id="profissao" name="profissao" required><br><br>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Quando o formulário for enviado
+        document.getElementById('formPessoa').addEventListener('submit', async (event) => {
+            event.preventDefault();  // Impede o envio padrão do formulário
+
+            // Coletar os valores do formulário
+            const nome = document.getElementById('nome').value;
+            const idade = document.getElementById('idade').value;
+            const profissao = document.getElementById('profissao').value;
+
+            try {
+                // Enviar os dados via POST para o servidor
+                const resposta = await axios.post('http://localhost:3000/adicionar', {
+                    nome,
+                    idade: parseInt(idade),
+                    profissao
+                });
+
+                alert('Documento adicionado com sucesso!');
+                console.log(resposta.data); // Verificar a resposta no console
+            } catch (error) {
+                console.log('Erro ao adicionar documento:', error);
+                alert('Erro ao cadastrar pessoa.');
+            }
+        });
+    </script>
+
+</body>
+</html>

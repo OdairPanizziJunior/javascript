@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const minhaColecaoSchema = new mongoose.Schema({
     nome: String,
     idade: Number,
+    profissao: String
 });
 
 const MinhaColecao = mongoose.model('MinhaColecao', minhaColecaoSchema);
