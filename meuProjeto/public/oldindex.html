@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário e Busca</title>
+</head>
+<body>
+    <h1>Cadastro de Pessoas</h1>
+    
+    <!-- Formulário para adicionar pessoa -->
+    <form id="formCadastro">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" required><br><br>
+
+        <label for="idade">Idade:</label>
+        <input type="number" id="idade" required><br><br>
+
+        <label for="profissao">Profissão:</label>
+        <input type="text" id="profissao" required><br><br>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <h2>Buscar Pessoa</h2>
+
+    <!-- Campo de busca -->
+    <input type="text" id="buscarNome" placeholder="Buscar por nome" />
+
+    <button onclick="buscarPessoa()">Buscar</button>
+
+    <h3>Resultado da Busca:</h3>
+    <ul id="resultadoBusca"></ul>
+
+    <script>
+        // Função para enviar o formulário
+        document.getElementById("formCadastro").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const nome = document.getElementById("nome").value;
+            const idade = document.getElementById("idade").value;
+            const profissao = document.getElementById("profissao").value;
+
+            fetch("http://localhost:3000/adicionar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ nome, idade, profissao })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                // Limpar o formulário
+                document.getElementById("formCadastro").reset();
+            })
+            .catch(error => console.log(error));
+        });
+
+        // Função para buscar uma pessoa
+        function buscarPessoa() {
+            const nomeBusca = document.getElementById("buscarNome").value;
+
+            fetch(`http://localhost:3000/buscar?nome=${nomeBusca}`)
+                .then(response => response.json())
+                .then(data => {
+                    const ul = document.getElementById("resultadoBusca");
+                    ul.innerHTML = ''; // Limpar resultados anteriores
+                    data.forEach(pessoa => {
+                        const li = document.createElement("li");
+                        li.textContent = `Nome: ${pessoa.nome}, Idade: ${pessoa.idade}, Profissão: ${pessoa.profissao}`;
+                        ul.appendChild(li);
+                    });
+                })
+                .catch(error => console.log(error));
+        }
+    </script>
+</body>
+</html>

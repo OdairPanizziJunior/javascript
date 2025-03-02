@@ -42,6 +42,32 @@ app.get('/buscar', async (req, res) => {
     }
 });
 
+//Rota para deletar 
+app.delete('/deletar', async (req, res) => {
+    try {
+        const idDelete = req.query.id;  // Obtém o ID da pessoa a ser deletada
+        const pessoaDeletada = await Pessoa.deleteOne({ _id: idDelete });  // Deleta pela chave _id
+
+        if (pessoaDeletada.deletedCount === 0) {
+            return res.status(404).json({ message: "Pessoa não encontrada para excluir." });
+        }
+
+        res.json({ message: "Pessoa deletada com sucesso!" });
+    } catch (error) {
+        res.status(500).json({ message: "Erro ao excluir", error });
+    }
+});
+
+// Rota para listar todas as pessoas
+app.get('/listar', async (req, res) => {
+    try {
+        const pessoas = await Pessoa.find();  // Recupera todas as pessoas
+        res.json(pessoas);  // Retorna as pessoas em formato JSON
+    } catch (error) {
+        res.status(500).json({ message: "Erro ao listar pessoas", error });
+    }
+});
+
 
 // Iniciar o servidor
 app.listen(porta, () => {
