@@ -71,27 +71,10 @@
 
     <script>
 
-       /* const adicionarPessoa = async () => {
-            const nome = document.getElementById("nome").value;
-            const idade = document.getElementById("idade").value;
-            const profissao = document.getElementById("profissao").value;
-
-            try {
-                const resposta = await axios.post('http://localhost:3000/adicionar', {
-                    nome, idade, profissao
-                });
-                console.log('Pessoa adicionada:', resposta.data);
-                alert("Pessoa adicionada!");
-                listarPessoas(); // Atualiza a lista de pessoas toda vez que insere.
-            } catch (error) {
-                console.error('Erro ao adicionar pessoa:', error);
-            }
-        };*/
-
         const adicionarPessoa = async () => {
-    const nomeInput = document.getElementById("nome");
-    const idadeInput = document.getElementById("idade");
-    const profissaoInput = document.getElementById("profissao");
+        const nomeInput = document.getElementById("nome");
+        const idadeInput = document.getElementById("idade");
+        const profissaoInput = document.getElementById("profissao");
 
     try {
         const resposta = await axios.post('http://localhost:3000/adicionar', {
