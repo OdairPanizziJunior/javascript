@@ -71,7 +71,7 @@
 
     <script>
 
-        const adicionarPessoa = async () => {
+       /* const adicionarPessoa = async () => {
             const nome = document.getElementById("nome").value;
             const idade = document.getElementById("idade").value;
             const profissao = document.getElementById("profissao").value;
@@ -81,11 +81,38 @@
                     nome, idade, profissao
                 });
                 console.log('Pessoa adicionada:', resposta.data);
+                alert("Pessoa adicionada!");
                 listarPessoas(); // Atualiza a lista de pessoas toda vez que insere.
             } catch (error) {
                 console.error('Erro ao adicionar pessoa:', error);
             }
-        };
+        };*/
+
+        const adicionarPessoa = async () => {
+    const nomeInput = document.getElementById("nome");
+    const idadeInput = document.getElementById("idade");
+    const profissaoInput = document.getElementById("profissao");
+
+    try {
+        const resposta = await axios.post('http://localhost:3000/adicionar', {
+            nome: nomeInput.value,
+            idade: idadeInput.value,
+            profissao: profissaoInput.value
+        });
+
+        console.log('Pessoa adicionada:', resposta.data);
+        alert("Pessoa adicionada!");
+
+        // Limpa os campos após adicionar a pessoa
+        nomeInput.value = "";
+        idadeInput.value = "";
+        profissaoInput.value = "";
+
+        listarPessoas(); // Atualiza a lista de pessoas
+    } catch (error) {
+        console.error('Erro ao adicionar pessoa:', error);
+    }
+};
 
         const buscarPessoa = async () => {
             const nomeBusca = document.getElementById("nomeBusca").value;
