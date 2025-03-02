@@ -4,8 +4,8 @@ const axios = require('axios');
 const adicionarDocumento = async () => {
     try{
         const resposta = await axios.post('http://localhost:3000/adicionar',{
-            nome: 'João',
-            idade: 30,
+            nome: 'Pedro',
+            idade: 40,
         });
         console.log('Documento adicionado:', resposta.data);
     }catch(error){

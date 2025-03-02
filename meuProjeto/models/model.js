@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
 
-//Schema para "minhaColecao"
+// Schema para "minhaColecao"
 const pessoaSchema = new mongoose.Schema({
     nome: { type: String, required: true }, 
     idade: { type: Number, required: true } 
 });
 
-//modelo a partir do schema
-const Pessoa = mongoose.model('Pessoa', pessoaSchema);
+// Modelo para a coleção "minhaColecao"
+const Pessoa = mongoose.model('Pessoa', pessoaSchema, 'minhaColecao');
 
 module.exports = Pessoa;
+
+
+

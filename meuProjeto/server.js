@@ -15,20 +15,16 @@ const startServer = async () => {
         await conectarMongoDB();
 
         // Rota para adicionar documento
+
         app.post('/adicionar', async (req, res) => {
             const { nome, idade } = req.body;
-
             try {
-                // Criar uma nova pessoa com os dados recebidos
-                const novaPessoa = new Pessoa({ nome, idade });
-
-                // Salvar no banco de dados
-                await novaPessoa.save();
-
-                res.status(201).send({ message: 'Documento adicionado com sucesso!', pessoa: novaPessoa });
+                const novoDocumento = new MeuModelo({ nome, idade });
+                await novoDocumento.save();
+                res.status(200).send('Documento adicionado com sucesso!');
             } catch (error) {
-                console.log('Erro ao salvar no banco:', error);
-                res.status(500).send({ message: 'Erro ao adicionar o documento.' });
+                console.error(error);
+                res.status(500).send('Erro ao adicionar documento');
             }
         });
 
