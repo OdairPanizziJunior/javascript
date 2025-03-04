@@ -9,29 +9,29 @@
         body { 
             font-family: Arial, sans-serif;
             margin: 20px; 
-            }
+        }
         .container { 
             margin-bottom: 20px; 
-            }
+        }
         input { 
             margin: 5px; 
-            padding: 8px; }
+            padding: 8px; 
+        }
         button {
             padding: 8px 16px; background-color: #4CAF50; 
             color: white; border: none; 
             cursor: pointer; 
-            }
+        }
         button:hover { 
             background-color: #45a049;
-            }
+        }
         table {
-            width: 100%; border-collapse: 
-            collapse; margin-top: 20px; 
-            }
+            width: 100%; border-collapse: collapse; margin-top: 20px; 
+        }
         th, td { padding: 8px 12px; 
             border: 1px solid #ddd; 
             text-align: left; 
-            }
+        }
     </style>
 </head>
 <body>
@@ -39,11 +39,12 @@
     <h1>Cadastro de Pessoas</h1>
 
     <div class="container">
-        <h2>Adicionar Pessoa</h2>
+        <h2>Adicionar / Atualizar Pessoa</h2>
         <input type="text" id="nome" placeholder="Nome" required>
         <input type="number" id="idade" placeholder="Idade" required>
         <input type="text" id="profissao" placeholder="Profissão" required>
         <button onclick="adicionarPessoa()">Cadastrar</button>
+        <button onclick="atualizarPessoa()" style="display:none" id="btnAtualizar">Atualizar</button>
     </div>
 
     <div class="container">
@@ -71,38 +72,40 @@
 
     <script>
 
+        let pessoaEditandoId = null;  // Variável para armazenar o ID da pessoa que está sendo editada.
+
         const adicionarPessoa = async () => {
-        const nomeInput = document.getElementById("nome");
-        const idadeInput = document.getElementById("idade");
-        const profissaoInput = document.getElementById("profissao");
+            const nomeInput = document.getElementById("nome");
+            const idadeInput = document.getElementById("idade");
+            const profissaoInput = document.getElementById("profissao");
 
-    try {
-        const resposta = await axios.post('http://localhost:3000/adicionar', {
-            nome: nomeInput.value,
-            idade: idadeInput.value,
-            profissao: profissaoInput.value
-        });
+            try {
+                const resposta = await axios.post('http://localhost:3000/adicionar', {
+                    nome: nomeInput.value,
+                    idade: idadeInput.value,
+                    profissao: profissaoInput.value
+                });
 
-        console.log('Pessoa adicionada:', resposta.data);
-        alert("Pessoa adicionada!");
+                console.log('Pessoa adicionada:', resposta.data);
+                alert("Pessoa adicionada!");
 
-        // Limpa os campos após adicionar a pessoa
-        nomeInput.value = "";
-        idadeInput.value = "";
-        profissaoInput.value = "";
+                // Limpa os campos após adicionar a pessoa
+                nomeInput.value = "";
+                idadeInput.value = "";
+                profissaoInput.value = "";
 
-        listarPessoas(); // Atualiza a lista de pessoas
-    } catch (error) {
-        console.error('Erro ao adicionar pessoa:', error);
-    }
-};
+                listarPessoas(); // Atualiza a lista de pessoas
+            } catch (error) {
+                console.error('Erro ao adicionar pessoa:', error);
+            }
+        };
 
         const buscarPessoa = async () => {
             const nomeBusca = document.getElementById("nomeBusca").value;
             try {
                 const resposta = await axios.get(`http://localhost:3000/buscar?nome=${nomeBusca}`);
                 const pessoas = resposta.data;
-                exibirPessoas(pessoas); // exite tbody as pessoas listadas
+                exibirPessoas(pessoas);
             } catch (error) {
                 console.error('Erro ao buscar pessoa:', error);
             }
@@ -112,7 +115,7 @@
             try {
                 const resposta = await axios.get('http://localhost:3000/listar');
                 const pessoas = resposta.data;
-                exibirPessoas(pessoas); // Exibe a lista
+                exibirPessoas(pessoas);
             } catch (error) {
                 console.error('Erro ao listar pessoas:', error);
             }
@@ -128,10 +131,31 @@
             }
         };
 
-        // Função para exibir as pessoas na tabela
+        const atualizarPessoa = async () => {
+            const nome = document.getElementById("nome").value;
+            const idade = document.getElementById("idade").value;
+            const profissao = document.getElementById("profissao").value;
+
+            if (!pessoaEditandoId) {
+                alert("Nenhuma pessoa selecionada para atualização!");
+                return;
+            }
+
+            try {
+                await axios.put(`http://localhost:3000/atualizar/${pessoaEditandoId}`, {
+                    nome, idade, profissao
+                });
+                alert("Pessoa atualizada!");
+                listarPessoas();
+                resetarFormulario();
+            } catch (error) {
+                console.error('Erro ao atualizar pessoa:', error);
+            }
+        };
+
         const exibirPessoas = (pessoas) => {
             const tabelaPessoas = document.getElementById("tabelaPessoas").getElementsByTagName('tbody')[0];
-            tabelaPessoas.innerHTML = ''; // Limpa a tabela antes de inserir as novas linhas
+            tabelaPessoas.innerHTML = '';
 
             pessoas.forEach(pessoa => {
                 const row = tabelaPessoas.insertRow();
@@ -139,13 +163,41 @@
                     <td>${pessoa.nome}</td>
                     <td>${pessoa.idade}</td>
                     <td>${pessoa.profissao}</td>
-                    <td><button onclick="excluirPessoa('${pessoa._id}')">Excluir</button></td>
+                    <td>
+                        <button onclick="excluirPessoa('${pessoa._id}')">Excluir</button>
+                        <button onclick="editarPessoa('${pessoa._id}', '${pessoa.nome}', '${pessoa.idade}', '${pessoa.profissao}')">Atualizar</button>
+                    </td>
                 `;
             });
         };
 
+        // Função para preencher o formulário com os dados da pessoa
+        const editarPessoa = (id, nome, idade, profissao) => {
+            pessoaEditandoId = id;  // Armazena o ID da pessoa que está sendo editada
+            document.getElementById("nome").value = nome;
+            document.getElementById("idade").value = idade;
+            document.getElementById("profissao").value = profissao;
+
+            // Exibe o botão de atualização e esconde o de adicionar
+            document.querySelector("button[onclick='adicionarPessoa()']").style.display = "none";
+            document.getElementById("btnAtualizar").style.display = "inline-block";
+        };
+
+        // Função para limpar o formulário
+        const resetarFormulario = () => {
+            pessoaEditandoId = null;
+            document.getElementById("nome").value = "";
+            document.getElementById("idade").value = "";
+            document.getElementById("profissao").value = "";
+
+            // Volta a exibir o botão de adicionar e esconde o de atualização
+            document.querySelector("button[onclick='adicionarPessoa()']").style.display = "inline-block";
+            document.getElementById("btnAtualizar").style.display = "none";
+        };
+
         // Chama a função listarPessoas ao carregar a página
         listarPessoas();
+
     </script>
 
 </body>

@@ -57,6 +57,21 @@ app.delete('/deletar', async (req, res) => {
     }
 });
 
+//rota para atualizar
+app.put('/atualizar/:id', async (req, res) => {
+    const { nome, idade, profissao } = req.body;
+    const { id } = req.params;
+
+    try {
+        const pessoa = await Pessoa.findByIdAndUpdate(id, { nome, idade, profissao }, { new: true });
+        res.json(pessoa); // Retorna os dados da pessoa atualizada
+    } catch (error) {
+        res.status(500).json({ message: "Erro ao atualizar a pessoa", error });
+    }
+});
+
+
+
 // Rota para listar todas as pessoas
 app.get('/listar', async (req, res) => {
     try {
