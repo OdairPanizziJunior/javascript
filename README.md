@@ -1,7 +1,7 @@
 # javascript / typescript
-Estudos sobre a linguagem
+Neste diretório você encontra estudos sobre a linguagem e meu projeto pessoal
 
-# Sistema de Cadastro de Pessoas
+# Sistema de Cadastro de Pessoas (meuProjeto)
 
 Este é um sistema simples de cadastro de pessoas com informações como nome, idade e profissão. O sistema utiliza o **MongoDB** para o armazenamento dos dados e um backend **Node.js** com **Express** para manipulação das requisições HTTP.
 
